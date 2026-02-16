@@ -13,7 +13,7 @@ let oldInputValue;
 
 //Functions
 const filterTodos = (filterValue) => {
-  const todos = document.querySelectorAll(".todo");
+  const todos = document.querySelectorAll(".to-do-task");
 
   switch (filterValue) {
     case "all":
@@ -45,7 +45,7 @@ const filterTodos = (filterValue) => {
 };
 
 const getSearchedTodos = (search) => {
-  const todos = document.querySelectorAll(".todo");
+  const todos = document.querySelectorAll(".to-do-task");
 
   todos.forEach((todo) => {
     const todoTitle = todo.querySelector("h3").innerText.toLowerCase();
@@ -133,7 +133,7 @@ const toggleForms = () => {
 };
 
 const updateTodo = (text) => {
-  const todos = document.querySelectorAll(".todo");
+  const todos = document.querySelectorAll("to-do-task");
 
   todos.forEach((todo) => {
     let todoTitle = todo.querySelector("h3");
