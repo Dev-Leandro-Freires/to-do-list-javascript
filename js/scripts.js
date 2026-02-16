@@ -133,7 +133,7 @@ const toggleForms = () => {
 };
 
 const updateTodo = (text) => {
-  const todos = document.querySelectorAll("to-do-task");
+  const todos = document.querySelectorAll(".to-do-task");
 
   todos.forEach((todo) => {
     let todoTitle = todo.querySelector("h3");
