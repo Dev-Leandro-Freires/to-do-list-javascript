@@ -45,6 +45,32 @@ const filterTodos = (filterValue) => {
 
 };
 
+const generateHTMLForTodo = (text) => {
+  const todo = document.createElement("div");
+  todo.classList.add("to-do-task");
+
+  const todoTitle = document.createElement("h3");
+  todoTitle.innerText = text;
+  todo.appendChild(todoTitle);
+
+  const doneBtn = document.createElement("button");
+  doneBtn.classList.add("finish-to-do");
+  doneBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
+  todo.appendChild(doneBtn);
+
+  const editBtn = document.createElement("button");
+  editBtn.classList.add("edit-to-do");
+  editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
+  todo.appendChild(editBtn);
+
+  const deleteBtn = document.createElement("button");
+  deleteBtn.classList.add("remove-to-do");
+  deleteBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+  todo.appendChild(deleteBtn);
+
+  todoList.appendChild(todo);
+};
+
 const getSearchedTodos = (search, filterValue = "all") => {
   let todos;
 
@@ -85,10 +111,15 @@ const getTodosLocalStorage = () => {
 };
 
 const loadTodos = () => {
+  todoInput.value = "";
+  filterBtn.value = "all";
+  searchInput.value = "";
+  todoList.innerHTML = "";
+
   const todos = getTodosLocalStorage();
 
   todos.forEach((todo) => {
-    saveTodo(todo.text, todo.done, 0);
+    generateHTMLForTodo(todo.task);
   });
 };
 
@@ -100,39 +131,6 @@ const removeTodoLocalStorage = (todoText) => {
   localStorage.setItem("tasks-list", JSON.stringify(filteredTodos));
 };
 
-const saveTodo = (text) => {
-  filterBtn.value = "all";
-  filterTodos(filterBtn.value);
-
-  const todo = document.createElement("div");
-  todo.classList.add("to-do-task");
-
-  const todoTitle = document.createElement("h3");
-  todoTitle.innerText = text;
-  todo.appendChild(todoTitle);
-
-  const doneBtn = document.createElement("button");
-  doneBtn.classList.add("finish-to-do");
-  doneBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
-  todo.appendChild(doneBtn);
-
-  const editBtn = document.createElement("button");
-  editBtn.classList.add("edit-to-do");
-  editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
-  todo.appendChild(editBtn);
-
-  const deleteBtn = document.createElement("button");
-  deleteBtn.classList.add("remove-to-do");
-  deleteBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-  todo.appendChild(deleteBtn);
-  
-  todoList.appendChild(todo);
-  
-  saveTodoLocalStorage({ text, done: 0 });  
-
-  todoInput.value = "";
-};
-
 const saveTodoLocalStorage = (todo) => {
   const todos = getTodosLocalStorage();
 
@@ -142,8 +140,8 @@ const saveTodoLocalStorage = (todo) => {
 };
 
 const toggleForms = () => {
-  editForm.classList.toggle("hide");
   todoForm.classList.toggle("hide");
+  editForm.classList.toggle("hide");  
   todoList.classList.toggle("hide");
 };
 
@@ -241,13 +239,14 @@ filterBtn.addEventListener("change", (e) => {
   const filterValue = e.target.value;
 
   filterTodos(filterValue);
+  searchInput.value = "";
 });
 
 searchInput.addEventListener("keyup", (e) => {
   const search = e.target.value;
   const filterValue = filterBtn.value;
 
-  getSearchedTodos(search, filterValue);
+  getSearchedTodos(search, filterValue);  
 });
 
 todoForm.addEventListener("submit", (e) => {
@@ -256,8 +255,10 @@ todoForm.addEventListener("submit", (e) => {
   const inputValue = todoInput.value;
 
   if (inputValue) {
-    saveTodo(inputValue);
+    saveTodoLocalStorage({ task: inputValue, done: 0 });
   }
+
+  loadTodos();
 });
 
 
