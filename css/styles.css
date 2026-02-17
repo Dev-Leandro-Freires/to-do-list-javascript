@@ -78,6 +78,7 @@ select {
 
 .form-control input {
   margin-right: 0.3rem;
+  width: 350px;
 }
 
 #cancel-edit-btn {
