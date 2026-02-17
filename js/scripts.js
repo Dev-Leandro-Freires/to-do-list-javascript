@@ -100,7 +100,7 @@ const removeTodoLocalStorage = (todoText) => {
   localStorage.setItem("tasks-list", JSON.stringify(filteredTodos));
 };
 
-const saveTodo = (text, done = 0, save = 1) => {
+const saveTodo = (text) => {
   filterBtn.value = "all";
   filterTodos(filterBtn.value);
 
@@ -125,16 +125,10 @@ const saveTodo = (text, done = 0, save = 1) => {
   deleteBtn.classList.add("remove-to-do");
   deleteBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
   todo.appendChild(deleteBtn);
-
-  if (done) {
-    todo.classList.add("done");
-  }
-
-  if (save) {
-    saveTodoLocalStorage({ text, done: 0 });
-  }
-
+  
   todoList.appendChild(todo);
+  
+  saveTodoLocalStorage({ text, done: 0 });  
 
   todoInput.value = "";
 };
