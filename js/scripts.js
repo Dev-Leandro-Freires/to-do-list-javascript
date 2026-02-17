@@ -42,10 +42,28 @@ const filterTodos = (filterValue) => {
     default:
       break;
   }
+
 };
 
-const getSearchedTodos = (search) => {
-  const todos = document.querySelectorAll(".to-do-task");
+const getSearchedTodos = (search, filterValue = "all") => {
+  let todos;
+
+  switch (filterValue) {
+    case "all":
+      todos = document.querySelectorAll(".to-do-task");;
+      break;
+
+    case "done":
+      todos = document.querySelectorAll(".to-do-task.done");
+      break;
+
+    case "to do":
+      todos = document.querySelectorAll(".to-do-task:not(.done)");
+      break;
+
+    default:
+      break;
+  }
 
   todos.forEach((todo) => {
     const todoTitle = todo.querySelector("h3").innerText.toLowerCase();
@@ -83,6 +101,9 @@ const removeTodoLocalStorage = (todoText) => {
 };
 
 const saveTodo = (text, done = 0, save = 1) => {
+  filterBtn.value = "all";
+  filterTodos(filterBtn.value);
+
   const todo = document.createElement("div");
   todo.classList.add("to-do-task");
 
@@ -230,8 +251,9 @@ filterBtn.addEventListener("change", (e) => {
 
 searchInput.addEventListener("keyup", (e) => {
   const search = e.target.value;
+  const filterValue = filterBtn.value;
 
-  getSearchedTodos(search);
+  getSearchedTodos(search, filterValue);
 });
 
 todoForm.addEventListener("submit", (e) => {
@@ -243,25 +265,6 @@ todoForm.addEventListener("submit", (e) => {
     saveTodo(inputValue);
   }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 loadTodos();
