@@ -232,14 +232,6 @@ editForm.addEventListener("submit", (e) => {
   toggleForms();
 });
 
-// eraseBtn.addEventListener("click", (e) => {
-//   e.preventDefault();
-
-//   searchInput.value = "";
-
-//   searchInput.dispatchEvent(new Event("keyup"));
-// });
-
 filterBtn.addEventListener("change", (e) => {
   const filterValue = e.target.value;
 
