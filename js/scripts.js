@@ -144,7 +144,7 @@ const saveTodoLocalStorage = (todo) => {
 
 const toggleForms = () => {
   todoForm.classList.toggle("hide");
-  editForm.classList.toggle("hide");  
+  editForm.classList.toggle("hide");
   todoList.classList.toggle("hide");
 };
 
@@ -165,9 +165,11 @@ const updateTodo = (task) => {
 const updateTodoLocalStorage = (todoOldText, todoNewText) => {
   const todos = getTodosLocalStorage();
 
-  todos.map((todo) =>
-    todo.task === todoOldText ? (todo.task = todoNewText) : null
-  );
+  todos.forEach((todo) => {
+    if (todo.task === todoOldText) {
+      todo.task = todoNewText;
+    }
+  });
 
   localStorage.setItem("tasks-list", JSON.stringify(todos));
 };
@@ -217,7 +219,7 @@ document.addEventListener("click", (e) => {
     parentEl.remove();
     removeTodoLocalStorage(todoTitle);
   }
-  
+
 });
 
 editForm.addEventListener("submit", (e) => {
@@ -244,7 +246,7 @@ searchInput.addEventListener("keyup", (e) => {
   const search = e.target.value;
   const filterValue = filterBtn.value;
 
-  getSearchedTodos(search, filterValue);  
+  getSearchedTodos(search, filterValue);
 });
 
 todoForm.addEventListener("submit", (e) => {
