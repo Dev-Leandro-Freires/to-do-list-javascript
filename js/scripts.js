@@ -45,12 +45,16 @@ const filterTodos = (filterValue) => {
 
 };
 
-const generateHTMLForTodo = (text) => {
+const generateHTMLForTodo = (task, done) => {
   const todo = document.createElement("div");
   todo.classList.add("to-do-task");
 
+  if (done) {
+    todo.classList.add("done");
+  }
+
   const todoTitle = document.createElement("h3");
-  todoTitle.innerText = text;
+  todoTitle.innerText = task;
   todo.appendChild(todoTitle);
 
   const doneBtn = document.createElement("button");
@@ -119,14 +123,14 @@ const loadTodos = () => {
   const todos = getTodosLocalStorage();
 
   todos.forEach((todo) => {
-    generateHTMLForTodo(todo.task);
+    generateHTMLForTodo(todo.task, todo.done);
   });
 };
 
-const removeTodoLocalStorage = (todoText) => {
+const removeTodoLocalStorage = (task) => {
   const todos = getTodosLocalStorage();
 
-  const filteredTodos = todos.filter((todo) => todo.text != todoText);
+  const filteredTodos = todos.filter((todo) => todo.task != task);
 
   localStorage.setItem("tasks-list", JSON.stringify(filteredTodos));
 };
@@ -145,16 +149,16 @@ const toggleForms = () => {
   todoList.classList.toggle("hide");
 };
 
-const updateTodo = (text) => {
+const updateTodo = (task) => {
   const todos = document.querySelectorAll(".to-do-task");
 
   todos.forEach((todo) => {
     let todoTitle = todo.querySelector("h3");
 
     if (todoTitle.innerText === oldInputValue) {
-      todoTitle.innerText = text;
+      todoTitle.innerText = task;
 
-      updateTodoLocalStorage(oldInputValue, text);
+      updateTodoLocalStorage(oldInputValue, task);
     }
   });
 };
@@ -163,17 +167,17 @@ const updateTodoLocalStorage = (todoOldText, todoNewText) => {
   const todos = getTodosLocalStorage();
 
   todos.map((todo) =>
-    todo.text === todoOldText ? (todo.text = todoNewText) : null
+    todo.task === todoOldText ? (todo.task = todoNewText) : null
   );
 
   localStorage.setItem("tasks-list", JSON.stringify(todos));
 };
 
-const updateTodoStatusLocalStorage = (todoText) => {
+const updateTodoStatusLocalStorage = (task) => {
   const todos = getTodosLocalStorage();
 
   todos.map((todo) =>
-    todo.text === todoText ? (todo.done = !todo.done) : null
+    todo.task === task ? (todo.done = !todo.done) : null
   );
 
   localStorage.setItem("tasks-list", JSON.stringify(todos));
@@ -201,18 +205,19 @@ document.addEventListener("click", (e) => {
     updateTodoStatusLocalStorage(todoTitle);
   }
 
-  if (targetEl.classList.contains("remove-to-do")) {
-    parentEl.remove();
-
-    removeTodoLocalStorage(todoTitle);
-  }
-
   if (targetEl.classList.contains("edit-to-do")) {
     toggleForms();
 
     editInput.value = todoTitle;
     oldInputValue = todoTitle;
   }
+
+  if (targetEl.classList.contains("remove-to-do")) {
+    parentEl.remove();
+
+    removeTodoLocalStorage(todoTitle);
+  }
+  
 });
 
 editForm.addEventListener("submit", (e) => {
