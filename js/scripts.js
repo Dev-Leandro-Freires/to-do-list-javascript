@@ -5,7 +5,7 @@ const editForm = document.querySelector("#edit-form");
 const editInput = document.querySelector("#edit-input");
 const cancelEditBtn = document.querySelector("#cancel-edit-btn");
 const searchInput = document.querySelector("#search-input");
-const eraseBtn = document.querySelector("#erase-button");
+// const eraseBtn = document.querySelector("#erase-button");
 const filterBtn = document.querySelector("#filter-select");
 
 let oldInputValue;
@@ -227,13 +227,13 @@ editForm.addEventListener("submit", (e) => {
   toggleForms();
 });
 
-eraseBtn.addEventListener("click", (e) => {
-  e.preventDefault();
+// eraseBtn.addEventListener("click", (e) => {
+//   e.preventDefault();
 
-  searchInput.value = "";
+//   searchInput.value = "";
 
-  searchInput.dispatchEvent(new Event("keyup"));
-});
+//   searchInput.dispatchEvent(new Event("keyup"));
+// });
 
 filterBtn.addEventListener("change", (e) => {
   const filterValue = e.target.value;
