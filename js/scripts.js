@@ -2,14 +2,13 @@ const todoForm = document.querySelector("#add-form");
 const todoInput = document.querySelector("#to-do-input");
 const todoList = document.querySelector("#to-do-list");
 const editForm = document.querySelector("#edit-form");
+const toolbarDiv = document.querySelector("#toolbar");
 const editInput = document.querySelector("#edit-input");
 const cancelEditBtn = document.querySelector("#cancel-edit-btn");
 const searchInput = document.querySelector("#search-input");
-// const eraseBtn = document.querySelector("#erase-button");
 const filterBtn = document.querySelector("#filter-select");
 
 let oldInputValue;
-
 
 //Functions
 const filterTodos = (filterValue) => {
@@ -188,6 +187,7 @@ const updateTodoStatusLocalStorage = (task) => {
 cancelEditBtn.addEventListener("click", (e) => {
   e.preventDefault();
   toggleForms();
+  toolbarDiv.style.display = "flex";
 });
 
 document.addEventListener("click", (e) => {
@@ -207,6 +207,7 @@ document.addEventListener("click", (e) => {
 
   if (targetEl.classList.contains("edit-to-do")) {
     toggleForms();
+    toolbarDiv.style.display = "none";
 
     editInput.value = todoTitle;
     oldInputValue = todoTitle;
@@ -214,7 +215,6 @@ document.addEventListener("click", (e) => {
 
   if (targetEl.classList.contains("remove-to-do")) {
     parentEl.remove();
-
     removeTodoLocalStorage(todoTitle);
   }
   
@@ -230,6 +230,7 @@ editForm.addEventListener("submit", (e) => {
   }
 
   toggleForms();
+  toolbarDiv.style.display = "flex";
 });
 
 filterBtn.addEventListener("change", (e) => {
@@ -252,7 +253,7 @@ todoForm.addEventListener("submit", (e) => {
   const inputValue = todoInput.value;
 
   if (inputValue) {
-    saveTodoLocalStorage({ task: inputValue, done: 0 });
+    saveTodoLocalStorage({ task: inputValue, done: false });
   }
 
   loadTodos();
