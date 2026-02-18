@@ -102,10 +102,6 @@ select {
   flex-direction: column;
 }
 
-#search form {
-  display: flex;
-}
-
 #search input {
   width: 100%;
   margin-right: 0.3rem;
